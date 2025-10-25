@@ -22,7 +22,7 @@ import lombok.Setter;
 public class UserJpa {
     @Id
     @Column(name="id_user")
-    private Long id;
+    private Integer id;
     @Column(name="tx_name")
     private String name;
     @Column(name="tx_email")
