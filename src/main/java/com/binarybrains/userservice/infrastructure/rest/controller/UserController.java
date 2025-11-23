@@ -1,16 +1,14 @@
-package com.binarybrains.userservice.external.rest.controller;
+package com.binarybrains.userservice.infrastructure.rest.controller;
 
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.binarybrains.userservice.core.buisness.input.UserService;
-import com.binarybrains.userservice.external.rest.dto.UserDto;
+import com.binarybrains.userservice.core.ports.input.UserService;
+import com.binarybrains.userservice.infrastructure.rest.dto.UserDto;
 import com.binarybrains.userservice.utils.error.UserException;
 
 import io.swagger.v3.oas.annotations.media.Content;
@@ -21,7 +19,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 
 
 @RestController
-@RequestMapping(value = "/user", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "/api/user", produces = MediaType.APPLICATION_JSON_VALUE)
 public class UserController {
     private final UserService userService;
     public UserController(UserService userService) {
@@ -40,17 +38,5 @@ public class UserController {
             throw new UserException(errorInfo);
         });
     }
-    @ApiResponses({
-        @ApiResponse(responseCode = "200",description = "User register successfully", content = {@Content(schema = @Schema(implementation = UserDto.class))}),
-        @ApiResponse(responseCode = "400", description = "User all ready registered", content= @Content( schema= @Schema(example = "{\"error\": \"Ya existe este elemento.\"}"))),
-        @ApiResponse(responseCode = "500", description = "Internal server error", content = {@Content()})
-    })
-    @PostMapping("/")
-    public ResponseEntity<UserDto> createUser(@RequestBody UserDto userDto) {
-        return userService.create(userDto.toEntity())
-        .map(user -> ResponseEntity.ok(UserDto.fromEntity(user)))
-        .getOrElseGet(errorInfo -> {
-            throw new UserException(errorInfo);
-        });
-    }
+
 } 

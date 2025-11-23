@@ -1,6 +1,5 @@
 package com.binarybrains.userservice;
 
-import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -12,9 +11,9 @@ import org.mockito.Mock;
 import static org.mockito.Mockito.when;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.binarybrains.userservice.core.buisness.implementation.UserBs;
-import com.binarybrains.userservice.core.buisness.output.UserRepository;
 import com.binarybrains.userservice.core.entity.User;
+import com.binarybrains.userservice.core.implementation.UserBs;
+import com.binarybrains.userservice.core.ports.output.UserRepository;
 import com.binarybrains.userservice.utils.error.ErrorGlobalMapper;
 import com.binarybrains.userservice.utils.error.ErrorInfo;
 import com.binarybrains.userservice.utils.error.ErrorType;
@@ -56,37 +55,5 @@ class UserServiceUnitTest {
 		assertTrue(result.isLeft());
 		assertEquals("RN004", result.getLeft().getCode());
 	}
-	// Unit tests for createUser method
-	@Test 
-	void shouldCreateUserWhenEmailNotExists(){
-		User user = User.builder()
-						.name("John Smith")
-						.email("johnsmail@gmail.com")
-						.number("+1234567890")
-						.build();
-		when(userRepository.findByEmail(user.getEmail())).thenReturn(Optional.of(List.of()));
-		when(userRepository.save(user)).thenReturn(Optional.of(user));
-		var result = userBs.create(user);
-		assertTrue(result.isRight());
-	}
-	@Test 
-	void shoudReturnErrorWhenEmailExists(){
-		ErrorInfo err = ErrorInfo.builder()
-						.code("RN003")
-						.message("Email already exists")
-						.ruta("/user/")
-						.type(ErrorType.REQUEST)
-						.build();
-		User user = User.builder()
-						.name("John Smith")
-						.email("johnsmail@gmail.com")
-						.number("+1234567890")
-						.build();
 
-		when(errorMapper.getRn003()).thenReturn(err);
-		when(userRepository.findByEmail(user.getEmail())).thenReturn(Optional.of(List.of(user)));
-		var result = userBs.create(user);
-		assertTrue(result.isLeft());
-    	assertEquals("RN003", result.getLeft().getCode());
-	}
 }

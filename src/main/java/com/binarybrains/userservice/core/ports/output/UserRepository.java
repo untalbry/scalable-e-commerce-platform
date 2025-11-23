@@ -1,4 +1,4 @@
-package com.binarybrains.userservice.core.buisness.output;
+package com.binarybrains.userservice.core.ports.output;
 
 import java.util.List;
 import java.util.Optional;

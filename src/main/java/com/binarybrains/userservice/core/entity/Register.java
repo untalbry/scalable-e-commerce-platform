@@ -4,11 +4,10 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
-@Builder
 @Getter
 @Setter
-public class User {
-    private Integer id;
+@Builder
+public class Register {
     private String name;
     private String email;
     private String number;
