@@ -1,4 +1,4 @@
-package com.binarybrains.userservice.external.rest.dto;
+package com.binarybrains.userservice.infrastructure.rest.dto;
 
 import com.binarybrains.userservice.core.entity.User;
 

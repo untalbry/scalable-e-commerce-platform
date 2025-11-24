@@ -1,4 +1,4 @@
-package com.binarybrains.userservice.external.jpa.entity;
+package com.binarybrains.userservice.infrastructure.jpa.entity;
 
 import com.binarybrains.userservice.core.entity.User;
 
@@ -32,6 +32,9 @@ public class UserJpa {
     private String email;
     @Column(name="tx_phone_number")
     private String number;
+    @Column(name="tx_password")
+    private String password;
+
     public User toEntity() {
         return User.builder()
             .id(this.id)
@@ -46,6 +49,7 @@ public class UserJpa {
             .name(user.getName())
             .email(user.getEmail())
             .number(user.getNumber())
+            .password(user.getPassword())
             .build();
     }
 }
