@@ -1,13 +1,19 @@
 package com.binarybrains.userservice.core.entity;
 
+import com.binarybrains.userservice.utils.enums.TokenType;
+
+import lombok.Builder;
+import lombok.Getter;
+import lombok.Setter;
+
+@Builder
+@Getter
+@Setter
 public class Token {
-    public enum TokenType {
-        BEARER
-    }
     public Long id; 
     public String token;
-    public TokenType tokenType = TokenType.BEARER;
+    public TokenType tokenType;
     public boolean revoked;
     public boolean expired;
-    public String email; 
+    public User user; 
 }
