@@ -32,8 +32,8 @@ public class AuthBs implements AuthService {
     private final TokenJpaRepository tokenJpaRepository;
 
     @Override
-    public Either<ErrorInfo, String> register(Register register) throws AuthenticationException {
-        Either<ErrorInfo, String> response = Either.left(errorMapper.getRn003());
+    public Either<ErrorInfo, Token> register(Register register) throws AuthenticationException {
+        Either<ErrorInfo, Token> response = Either.left(errorMapper.getRn003());
         Optional<List<User>> userRegistered = userRepository.findByEmail(register.getEmail());
         if(userRegistered.isPresent() && userRegistered.get().isEmpty()){
             register.setPassword(passwordEncoder.encode(register.getPassword()));
@@ -46,7 +46,7 @@ public class AuthBs implements AuthService {
                     .build()
             );
             if(userSaved.isPresent()){
-                var token = authProvider.generateToken(userSaved.get().getEmail());
+                Token token = authProvider.generateToken(userSaved.get());
                 saveUserToken(userSaved.get(), token);
                 response = Either.right(token);
             }else{
@@ -55,10 +55,10 @@ public class AuthBs implements AuthService {
         }
         return response;
     }
-    private void saveUserToken(User user, String jwtToken) {
+    private void saveUserToken(User user, Token jwtToken) {
         Token token = Token.builder()
             .user(user)
-            .token(jwtToken)
+            .token(jwtToken.getToken())
             .tokenType(TokenType.BEARER)
             .expired(false)
             .revoked(false)

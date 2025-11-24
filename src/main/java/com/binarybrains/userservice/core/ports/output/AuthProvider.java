@@ -1,7 +1,10 @@
 package com.binarybrains.userservice.core.ports.output;
 
+import com.binarybrains.userservice.core.entity.Token;
+import com.binarybrains.userservice.core.entity.User;
+
 public interface AuthProvider {
-    String generateToken(String userId);
+    Token generateToken(User user);
     boolean validateToken(String token);
     
 }

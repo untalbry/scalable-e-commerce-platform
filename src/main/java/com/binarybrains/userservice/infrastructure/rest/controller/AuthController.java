@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.binarybrains.userservice.core.ports.input.AuthService;
 import com.binarybrains.userservice.infrastructure.rest.dto.RegisterDto;
+import com.binarybrains.userservice.infrastructure.rest.dto.TokenDto;
 import com.binarybrains.userservice.infrastructure.rest.dto.UserDto;
 import com.binarybrains.userservice.utils.error.UserException;
 
@@ -31,9 +32,9 @@ public class AuthController {
         @ApiResponse(responseCode = "500", description = "Internal server error", content = {@Content()})
     })
     @PostMapping("/register")
-    public ResponseEntity<String> register(@RequestBody RegisterDto registerDto){
+    public ResponseEntity<TokenDto> register(@RequestBody RegisterDto registerDto){
         return authService.register(registerDto.toEntity())
-        .map(token -> ResponseEntity.ok(token))
+        .map(token -> ResponseEntity.ok(TokenDto.fromEntity(token)))
         .getOrElseGet(errorInfo -> {
             throw new UserException(errorInfo);
         });

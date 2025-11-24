@@ -38,5 +38,4 @@ public class UserController {
             throw new UserException(errorInfo);
         });
     }
-
 } 
