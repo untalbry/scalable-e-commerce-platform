@@ -41,6 +41,7 @@ public class UserJpa {
             .name(this.name)
             .email(this.email)
             .number(this.number)
+            .password(this.password)
             .build();
     }
     public static UserJpa fromEntity(User user) {

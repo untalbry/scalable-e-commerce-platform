@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.binarybrains.userservice.core.ports.input.AuthService;
+import com.binarybrains.userservice.infrastructure.rest.dto.LoginDto;
 import com.binarybrains.userservice.infrastructure.rest.dto.RegisterDto;
 import com.binarybrains.userservice.infrastructure.rest.dto.TokenDto;
 import com.binarybrains.userservice.infrastructure.rest.dto.UserDto;
@@ -37,6 +38,19 @@ public class AuthController {
         .map(token -> ResponseEntity.ok(TokenDto.fromEntity(token)))
         .getOrElseGet(errorInfo -> {
             throw new UserException(errorInfo);
+        });
+    }
+    @ApiResponses({
+        @ApiResponse(responseCode = "200",description = "User login successfully", content = {@Content(schema = @Schema(implementation = UserDto.class))}),
+        @ApiResponse(responseCode = "400", description = "Invalid credentials", content= @Content( schema= @Schema(example = "{\"error\": \"Credenciales invalidas.\"}"))),
+        @ApiResponse(responseCode = "500", description = "Internal server error", content = {@Content()})
+    })
+    @PostMapping("/login")
+    public ResponseEntity<TokenDto> login(@RequestBody LoginDto loginDto){
+        return authService.login(loginDto.toEntity())
+        .map(token -> ResponseEntity.ok(TokenDto.fromEntity(token)))
+        .getOrElseGet(error -> {
+            throw new UserException(error);
         });
     }
 }
