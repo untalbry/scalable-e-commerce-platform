@@ -7,6 +7,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.binarybrains.userservice.core.entity.Login;
 import com.binarybrains.userservice.core.entity.Register;
 import com.binarybrains.userservice.core.entity.Token;
 import com.binarybrains.userservice.core.entity.User;
@@ -51,5 +52,19 @@ public class AuthBs implements AuthService {
         return response;
     }
 
-    
+    @Override
+    public Either<ErrorInfo, Token> login(Login login) {
+        Either<ErrorInfo, Token> response;
+        Optional<List<User>> userRegistered = userRepository.findByEmail(login.getEmail());
+        if(!userRegistered.isPresent() || userRegistered.get().isEmpty()){
+            response = Either.left(errorMapper.getRn004());
+        }
+        else if(!passwordEncoder.matches(login.getPassword(), userRegistered.get().get(0).getPassword())){
+            response = Either.left(errorMapper.getRn005());
+        }else{
+                Token token = authProvider.generateToken(userRegistered.get().get(0));
+                response = Either.right(token);
+        }
+        return response; 
+    }
 }

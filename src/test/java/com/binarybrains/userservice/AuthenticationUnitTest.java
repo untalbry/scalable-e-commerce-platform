@@ -13,6 +13,7 @@ import static org.mockito.Mockito.when;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import com.binarybrains.userservice.core.entity.Login;
 import com.binarybrains.userservice.core.entity.Register;
 import com.binarybrains.userservice.core.entity.Token;
 import com.binarybrains.userservice.core.entity.User;
@@ -86,6 +87,25 @@ public class AuthenticationUnitTest {
         assertTrue(result.isRight());
         assertEquals("token-123", result.get().getToken());
 
+    }
+    @Test
+    void shouldGenerateJwtOnSuccessfulLogin(){
+
+        Login login = Login.builder()
+            .email("new@email.com")
+            .password("plainPassword")
+            .build();
+        User registeredUser = User.builder()
+                        .password("encodedPassword")
+                        .build();
+        Token expectedToken = Token.builder().token("token-123").user(registeredUser).build();
+        
+        when(userRepository.findByEmail(login.getEmail())).thenReturn(Optional.of(java.util.List.of(registeredUser)));
+        when(passwordEncoder.matches(login.getPassword(), registeredUser.getPassword())).thenReturn(true);
+        when(authProvider.generateToken(registeredUser)).thenReturn(expectedToken);
+        var result = authBs.login(login);
+        assertTrue(result.isRight());
+        assertEquals("token-123", result.get().getToken());
     }
 
 }
