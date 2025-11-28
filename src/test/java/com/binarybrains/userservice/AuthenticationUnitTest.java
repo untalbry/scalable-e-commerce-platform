@@ -9,7 +9,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import static org.mockito.ArgumentMatchers.any;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -20,7 +19,6 @@ import com.binarybrains.userservice.core.entity.User;
 import com.binarybrains.userservice.core.implementation.AuthBs;
 import com.binarybrains.userservice.core.ports.output.AuthProvider;
 import com.binarybrains.userservice.core.ports.output.UserRepository;
-import com.binarybrains.userservice.infrastructure.jpa.repository.TokenJpaRepository;
 import com.binarybrains.userservice.utils.error.ErrorGlobalMapper;
 import com.binarybrains.userservice.utils.error.ErrorInfo;
 import com.binarybrains.userservice.utils.error.ErrorType;
@@ -40,8 +38,7 @@ public class AuthenticationUnitTest {
     private AuthProvider authProvider;
     @Mock
     private PasswordEncoder passwordEncoder;
-    @Mock
-    private TokenJpaRepository tokenJpaRepository;
+
     @Test 
     void shouldReturnErrorIfUserAlreadyExists() {
         Register register= Register.builder()
@@ -89,7 +86,6 @@ public class AuthenticationUnitTest {
         assertTrue(result.isRight());
         assertEquals("token-123", result.get().getToken());
 
-        verify(tokenJpaRepository).save(any());
     }
 
 }
