@@ -13,6 +13,7 @@ import com.binarybrains.userservice.infrastructure.rest.dto.LoginDto;
 import com.binarybrains.userservice.infrastructure.rest.dto.RegisterDto;
 import com.binarybrains.userservice.infrastructure.rest.dto.TokenDto;
 import com.binarybrains.userservice.infrastructure.rest.dto.UserDto;
+import com.binarybrains.userservice.infrastructure.rest.dto.ValidateEmailDto;
 import com.binarybrains.userservice.utils.error.UserException;
 
 import io.swagger.v3.oas.annotations.media.Content;
@@ -52,5 +53,19 @@ public class AuthController {
         .getOrElseGet(error -> {
             throw new UserException(error);
         });
+    }
+    @PostMapping("/email-verification")
+    public ResponseEntity<Boolean> requestEmailVerification(@RequestBody ValidateEmailDto email) {
+        return authService.sendValidationCode(email.toString())
+        .map(result -> ResponseEntity.ok(result))
+        .getOrElseGet(
+            error -> {
+                throw new UserException(error);
+            }
+        );
+    } 
+    @PostMapping("/email-validation/confirm")
+    public ResponseEntity<Void> confirmEmailVenrification(){
+        throw new UnsupportedOperationException("Unimplemented method 'confirmEmailVenrification'");
     }
 }

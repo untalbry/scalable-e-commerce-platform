@@ -10,4 +10,6 @@ import io.vavr.control.Either;
 public interface  AuthService {
     Either<ErrorInfo, Token> register(Register register); 
     Either<ErrorInfo, Token> login(Login login);
+    Either<ErrorInfo, Boolean> sendValidationCode(String email);
+
 }
