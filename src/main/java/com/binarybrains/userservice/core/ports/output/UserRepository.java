@@ -9,4 +9,5 @@ public interface  UserRepository {
     Optional<User> findById(Integer id);
     Optional<List<User>> findByEmail(String email);
     Optional<User> save(User user);
+    Boolean updateEmailValidationByEmail(String email);
 }

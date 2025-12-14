@@ -1,5 +1,6 @@
 package com.binarybrains.userservice.infrastructure.rest.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,16 +16,17 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import lombok.AllArgsConstructor;
+
 
 
 
 @RestController
 @RequestMapping(value = "/api/user", produces = MediaType.APPLICATION_JSON_VALUE)
+@AllArgsConstructor
 public class UserController {
+    @Autowired
     private final UserService userService;
-    public UserController(UserService userService) {
-        this.userService = userService;
-    }
     @ApiResponses({
         @ApiResponse(responseCode = "200",description = "User found successfully", content = {@Content(schema = @Schema(implementation = UserDto.class))}),
         @ApiResponse(responseCode = "404", description = "User not found", content= @Content( schema= @Schema(example = "{\"error\": \"User not found\"}"))),
@@ -38,4 +40,5 @@ public class UserController {
             throw new UserException(errorInfo);
         });
     }
+      
 } 

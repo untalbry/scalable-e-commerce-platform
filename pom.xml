@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>com.binarybrains</groupId>
 	<artifactId>userservice</artifactId>
-	<version>0.2.0-SNAPSHOT</version>
+	<version>0.2.1-SNAPSHOT</version>
 	<name>userservice</name>
 	<description>Demo project for Spring Boot</description>
 	<url/>
@@ -78,6 +78,11 @@
 			<artifactId>dotenv-java</artifactId>
 			<version>3.0.0</version>
 		</dependency>
+		<!-- Dependency to send emails-->
+		<dependency>
+	        <groupId>org.springframework.boot</groupId>
+    	    <artifactId>spring-boot-starter-mail</artifactId>
+    	</dependency>
 	</dependencies>
 
 	<build>

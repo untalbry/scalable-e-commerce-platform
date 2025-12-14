@@ -9,5 +9,4 @@ public interface AuthProvider {
     Token generateToken(User user);
     boolean validateToken(String token);
     Authentication getAuthentication(String token);
-    
 }

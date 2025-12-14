@@ -44,7 +44,7 @@
     },
     {
       "code": "RN007",
-      "message": "Código de verificación erróneo.",
+      "message": "Código de verificación no valido.",
       "ruta": "global",
       "type": "REQUEST"
     },
