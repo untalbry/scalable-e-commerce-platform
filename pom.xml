@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>com.binarybrains</groupId>
 	<artifactId>userservice</artifactId>
-	<version>0.2.4-SNAPSHOT</version>
+	<version>0.2.5-SNAPSHOT</version>
 	<name>userservice</name>
 	<description>Demo project for Spring Boot</description>
 	<url/>
@@ -43,6 +43,11 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-test</artifactId>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
