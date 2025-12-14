@@ -2,6 +2,7 @@ package com.binarybrains.userservice.core.implementation;
 
 
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
@@ -12,11 +13,10 @@ import com.binarybrains.userservice.utils.error.ErrorGlobalMapper;
 import com.binarybrains.userservice.utils.error.ErrorInfo;
 
 import io.vavr.control.Either;
-import lombok.AllArgsConstructor;
 
 @Service
 @Primary
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class UserBs implements UserService{
     private final  UserRepository userRepository;
     private final ErrorGlobalMapper errorMapper;

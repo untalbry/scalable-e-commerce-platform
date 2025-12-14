@@ -1,4 +1,4 @@
-package com.binarybrains.userservice;
+package com.binarybrains.userservice.unitTests;
 
 import java.util.Optional;
 
@@ -27,7 +27,7 @@ import com.binarybrains.userservice.utils.error.ErrorType;
 import io.vavr.collection.List;
 
 @ExtendWith(MockitoExtension.class)
-public class AuthenticationUnitTest {
+class AuthenticationUnitTest {
     
     @InjectMocks 
     private AuthBs authBs;
