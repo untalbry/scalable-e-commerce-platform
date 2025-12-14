@@ -1,4 +1,4 @@
-package com.binarybrains.userservice;
+package com.binarybrains.userservice.unitTests;
 
 import java.util.Optional;
 

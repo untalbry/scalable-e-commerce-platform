@@ -18,7 +18,7 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class UserTokenDao implements UserTokenRepository {
     private final UserTokenJpaRepository userTokenJpaRepository;
-    private final EntityManager entityManagerReadder; 
+    private final EntityManager entityManagerReader;
     private final EntityManager entityManager; 
     private final static String QUERY_GET_TOKENS_BY_USER_EMAIL = """
         SELECT ec06.id_user_token, ec06.fk_id_user, ec06.tx_token, ec06.dt_created_at FROM ec06_user_tokens ec06 
@@ -41,7 +41,7 @@ public class UserTokenDao implements UserTokenRepository {
     @Transactional
     @SuppressWarnings("unchecked")
     public Optional<List<UserToken>> findByUserEmail(String email) {
-        List<UserTokenJpa> tokens = entityManagerReadder
+        List<UserTokenJpa> tokens = entityManagerReader
         .createNativeQuery(QUERY_GET_TOKENS_BY_USER_EMAIL, UserTokenJpa.class)
         .setParameter("email", email)
         .getResultList();

@@ -1,6 +1,6 @@
 package com.binarybrains.userservice.infrastructure.rest.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,23 +15,18 @@ import com.binarybrains.userservice.utils.error.UserException;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import lombok.AllArgsConstructor;
 
 
 
 
 @RestController
 @RequestMapping(value = "/api/user", produces = MediaType.APPLICATION_JSON_VALUE)
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class UserController {
-    @Autowired
     private final UserService userService;
-    @ApiResponses({
-        @ApiResponse(responseCode = "200",description = "User found successfully", content = {@Content(schema = @Schema(implementation = UserDto.class))}),
-        @ApiResponse(responseCode = "404", description = "User not found", content= @Content( schema= @Schema(example = "{\"error\": \"User not found\"}"))),
-        @ApiResponse(responseCode = "500", description = "Internal server error", content = {@Content()})
-    })
+    @ApiResponse(responseCode = "200",description = "User found successfully", content = {@Content(schema = @Schema(implementation = UserDto.class))})
+    @ApiResponse(responseCode = "404", description = "User not found", content= @Content( schema= @Schema(example = "{\"error\": \"User not found\"}")))
+    @ApiResponse(responseCode = "500", description = "Internal server error", content = {@Content()})
     @GetMapping("/{id}")
     public ResponseEntity<UserDto> getUsersById(@PathVariable Integer id) {
         return userService.getById(id)

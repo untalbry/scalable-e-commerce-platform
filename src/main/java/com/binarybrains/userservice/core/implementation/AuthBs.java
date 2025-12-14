@@ -1,11 +1,11 @@
 package com.binarybrains.userservice.core.implementation;
 
 import java.security.SecureRandom;
-import java.time.Clock;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.core.AuthenticationException;
@@ -26,10 +26,9 @@ import com.binarybrains.userservice.utils.error.ErrorGlobalMapper;
 import com.binarybrains.userservice.utils.error.ErrorInfo;
 
 import io.vavr.control.Either;
-import lombok.AllArgsConstructor;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class AuthBs implements AuthService {
     private final PasswordEncoder passwordEncoder;
     private final AuthProvider authProvider;
@@ -69,10 +68,10 @@ public class AuthBs implements AuthService {
         if(!userRegistered.isPresent() || userRegistered.get().isEmpty()){
             response = Either.left(errorMapper.getRn004());
         }
-        else if(!passwordEncoder.matches(login.getPassword(), userRegistered.get().get(0).getPassword())){
+        else if(!passwordEncoder.matches(login.getPassword(), userRegistered.get().getFirst().getPassword())){
             response = Either.left(errorMapper.getRn005());
         }else{
-                Token token = authProvider.generateToken(userRegistered.get().get(0));
+                Token token = authProvider.generateToken(userRegistered.get().getFirst());
                 response = Either.right(token);
         }
         return response; 
@@ -87,7 +86,7 @@ public class AuthBs implements AuthService {
             String code = generateSixDigitCode();
             Optional<UserToken> userToken = userTokenRepository.save(UserToken.builder()
             .token(code)                       
-            .userId(user.get().get(0).getId())
+            .userId(user.get().getFirst().getId())
             .build());
             if(userToken.isEmpty()){
                 return Either.left(errorMapper.getRn000());
@@ -114,9 +113,9 @@ public class AuthBs implements AuthService {
         Optional<List<UserToken>> userTokens = userTokenRepository.findByUserEmail(emailVerification.getEmail());
         if(!userTokens.isPresent() || userTokens.isEmpty()){
             result = Either.left(errorMapper.getRn004());
-        }else if(!isTokenValid(userTokens.get().get(0), emailVerification.getToken())){
+        }else if(Boolean.FALSE.equals(isTokenValid(userTokens.get().getFirst(), emailVerification.getToken()))){
             result = Either.left(errorMapper.getRn007());
-        }else if(!userRepository.updateEmailValidationByEmail(emailVerification.getEmail())){
+        }else if(Boolean.FALSE.equals(userRepository.updateEmailValidationByEmail(emailVerification.getEmail()))){
             result = Either.left(errorMapper.getRn000());
         }else{
             result = Either.right(true);
