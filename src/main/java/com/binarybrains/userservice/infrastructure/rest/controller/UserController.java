@@ -45,7 +45,7 @@ public class UserController {
     @ApiResponse(responseCode = "200", description = "User email update successfully", content = {@Content(schema = @Schema (example = "true"))})
     @ApiResponse(responseCode = "404", description = "User not found", content= @Content( schema= @Schema(example = "{\"error\": \"User not found\"}")))
     @ApiResponse(responseCode = "500", description = "Internal server error", content = {@Content()})
-    @PatchMapping("/")
+    @PatchMapping("/email")
     public ResponseEntity<Boolean> updateUserEmail(@RequestBody UserEmailDto userEmailDto){
         return userService.updateEmail(userEmailDto.toEntity())
                 .map(ResponseEntity::ok)
