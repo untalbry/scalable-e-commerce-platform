@@ -4,6 +4,8 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import com.binarybrains.userservice.core.entity.UserEmail;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -55,5 +57,6 @@ class UserServiceUnitTest {
 		assertTrue(result.isLeft());
 		assertEquals("RN004", result.getLeft().getCode());
 	}
+
 
 }
