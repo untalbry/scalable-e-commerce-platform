@@ -19,9 +19,9 @@ import lombok.AllArgsConstructor;
 public class UserDao implements UserRepository{
     private final UserJpaRepository userJpaRepository;
     private final EntityManager entityManagerReading;
-    private final EntityManager entityManager; 
+    private final EntityManager entityManager;
     private static final String GET_USER_BY_EMAIL = "SELECT * FROM ec01_users WHERE tx_email =:email";
-    private static final String UPDATE_USER_EMAIL_VALIDATION = """
+    private static final String UPDATE_USER_EMAIL_AS_VERIFIED_BY_EMAIL = """
         update ec01_users ec01 
         set st_email_verified = true
         where ec01.tx_email = :email
@@ -29,6 +29,12 @@ public class UserDao implements UserRepository{
     private static final String DELETE_USER_BY_EMAIL = """
         delete from ec01_users ec01 where ec01.tx_email = :email
     """;
+    private static final String UPDATE_USER_EMAIL = """
+            update ec01_users ec01
+            set tx_email =:email,
+            st_email_verified = false
+            where id_user =:id
+            """;
     @Override
     public Optional<User> findById(Integer id) {
         return userJpaRepository.findById(id).map(UserJpa::toEntity);
@@ -52,12 +58,14 @@ public class UserDao implements UserRepository{
 
     @Override
     @Transactional(rollbackOn = Exception.class)
-    public Boolean updateEmailValidationByEmail(String email) {
-        int rowsUpdated = entityManager.createNativeQuery(UPDATE_USER_EMAIL_VALIDATION)
+    public Boolean updateEmailValidationAsVerifiedByEmail(String email) {
+        int rowsUpdated = entityManager.createNativeQuery(UPDATE_USER_EMAIL_AS_VERIFIED_BY_EMAIL)
         .setParameter("email", email)
-        .executeUpdate(); 
-        return rowsUpdated>=0; 
+        .executeUpdate();
+        return rowsUpdated>=0;
     }
+
+
 
     @Override
     @Transactional(rollbackOn = Exception.class)
@@ -65,6 +73,16 @@ public class UserDao implements UserRepository{
         entityManager.createNativeQuery(DELETE_USER_BY_EMAIL)
         .setParameter("email", email)
         .executeUpdate();
+    }
+
+    @Override
+    @Transactional(rollbackOn = Exception.class)
+    public Boolean updateEmailById(Integer userId, String email) {
+        int rowAffected = entityManager.createNativeQuery(UPDATE_USER_EMAIL)
+                .setParameter("id", userId)
+                .setParameter("email", email)
+                .executeUpdate();
+        return rowAffected > 0;
     }
 }
 
