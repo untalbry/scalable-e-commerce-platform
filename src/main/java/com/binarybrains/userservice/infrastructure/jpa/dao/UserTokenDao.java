@@ -49,9 +49,11 @@ public class UserTokenDao implements UserTokenRepository {
     }
 
     @Override
+    @Transactional
     public void deleteAllByEmail(String email) {
         entityManager.createNativeQuery(QUERY_DELETE_TOKENS_BY_USER_EMAIL)
-        .setParameter("email", email);
+        .setParameter("email", email)
+        .executeUpdate();
     }
 
 }

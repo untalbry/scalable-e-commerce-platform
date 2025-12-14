@@ -26,6 +26,9 @@ public class UserDao implements UserRepository{
         set st_email_verified = true
         where ec01.tx_email = :email
     """;
+    private static final String DELETE_USER_BY_EMAIL = """
+        delete from ec01_users ec01 where ec01.tx_email = :email
+    """;
     @Override
     public Optional<User> findById(Integer id) {
         return userJpaRepository.findById(id).map(UserJpa::toEntity);
@@ -54,6 +57,14 @@ public class UserDao implements UserRepository{
         .setParameter("email", email)
         .executeUpdate(); 
         return rowsUpdated>=0; 
+    }
+
+    @Override
+    @Transactional(rollbackOn = Exception.class)
+    public void deleteAllByEmail(String email) {
+        entityManager.createNativeQuery(DELETE_USER_BY_EMAIL)
+        .setParameter("email", email)
+        .executeUpdate();
     }
 }
 
