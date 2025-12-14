@@ -8,14 +8,16 @@ import lombok.Getter;
 
 @AllArgsConstructor
 @Getter
-@Schema(name = "Email", description = "DTO for user email validation.")
-public class ValidateEmailDto {
+@Schema(
+    name = "EmailVerificationRequest",
+    description = "DTO used to request an email verification process. " +
+                  "It contains the email address for which a verification code " +
+                  "will be sent."
+)
+public class EmailVerificationRequestDto {
     @NotBlank(message = "Email cannot be blank")
     @Pattern(regexp = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$", message = "Invalid email format")
     @Schema(description = "Email to be validated", example = "mail@mail.com")
     private final String email;
-    @Override
-    public String toString() {
-        return this.email;
-    }
+
 }

@@ -19,8 +19,13 @@ import lombok.AllArgsConstructor;
 public class UserDao implements UserRepository{
     private final UserJpaRepository userJpaRepository;
     private final EntityManager entityManagerReading;
+    private final EntityManager entityManager; 
     private static final String GET_USER_BY_EMAIL = "SELECT * FROM ec01_users WHERE tx_email =:email";
-
+    private static final String UPDATE_USER_EMAIL_VALIDATION = """
+        update ec01_users ec01 
+        set st_email_verified = true
+        where ec01.tx_email = :email
+    """;
     @Override
     public Optional<User> findById(Integer id) {
         return userJpaRepository.findById(id).map(UserJpa::toEntity);
@@ -40,6 +45,15 @@ public class UserDao implements UserRepository{
             .getResultList()
             .stream()
             .map(object -> ((UserJpa) object).toEntity()).toList());
-    }   
+    }
+
+    @Override
+    @Transactional(rollbackOn = Exception.class)
+    public Boolean updateEmailValidationByEmail(String email) {
+        int rowsUpdated = entityManager.createNativeQuery(UPDATE_USER_EMAIL_VALIDATION)
+        .setParameter("email", email)
+        .executeUpdate(); 
+        return rowsUpdated>=0; 
+    }
 }
 
