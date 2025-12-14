@@ -115,7 +115,7 @@ public class AuthBs implements AuthService {
             result = Either.left(errorMapper.getRn004());
         }else if(Boolean.FALSE.equals(isTokenValid(userTokens.get().getFirst(), emailVerification.getToken()))){
             result = Either.left(errorMapper.getRn007());
-        }else if(Boolean.FALSE.equals(userRepository.updateEmailValidationByEmail(emailVerification.getEmail()))){
+        }else if(Boolean.FALSE.equals(userRepository.updateEmailValidationAsVerifiedByEmail(emailVerification.getEmail()))){
             result = Either.left(errorMapper.getRn000());
         }else{
             result = Either.right(true);

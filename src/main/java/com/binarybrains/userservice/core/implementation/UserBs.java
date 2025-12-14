@@ -2,6 +2,7 @@ package com.binarybrains.userservice.core.implementation;
 
 
 
+import com.binarybrains.userservice.core.entity.UserEmail;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
@@ -13,6 +14,9 @@ import com.binarybrains.userservice.utils.error.ErrorGlobalMapper;
 import com.binarybrains.userservice.utils.error.ErrorInfo;
 
 import io.vavr.control.Either;
+
+import java.util.List;
+import java.util.Optional;
 
 @Service
 @Primary
@@ -26,6 +30,20 @@ public class UserBs implements UserService{
         return userRepository.findById(id)
                 .<Either<ErrorInfo, User>>map(Either::right)
                 .orElseGet(() -> Either.left(errorMapper.getRn004()));
+    }
+
+    @Override
+    public Either<ErrorInfo, Boolean> updateEmail(UserEmail userEmail) {
+        Either<ErrorInfo, Boolean> result;
+        Optional<User> user = userRepository.findById(userEmail.getId());
+        if(user.isEmpty()){
+            result = Either.left(errorMapper.getRn004());
+        }else if(Boolean.FALSE.equals(userRepository.updateEmailById(user.get().getId(), userEmail.getEmail()))){
+            result = Either.left(errorMapper.getRn000());
+        }else{
+            result = Either.right(true);
+        }
+        return result;
     }
 
 }
