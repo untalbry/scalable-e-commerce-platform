@@ -2,6 +2,7 @@ package com.binarybrains.userservice.infrastructure.rest.controller;
 
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -53,7 +54,7 @@ public class UserController {
     @ApiResponse(responseCode = "404", description = "User not found", content= @Content( schema= @Schema(example = "{\"error\": \"User not found\"}")))
     @ApiResponse(responseCode = "500", description = "Internal server error", content = {@Content()})
     @PatchMapping("/email")
-    public ResponseEntity<Boolean> updateUserEmail(@RequestBody @Valid UserEmailDto userEmailDto){
+    public ResponseEntity<Boolean> updateUserEmail(@RequestBody UserEmailDto userEmailDto){
         return userService.updateEmail(userEmailDto.toEntity())
                 .map(ResponseEntity::ok)
                 .getOrElseGet(errorInfo -> {
@@ -68,7 +69,8 @@ public class UserController {
     @ApiResponse(responseCode = "404", description = "User not found", content= @Content( schema= @Schema(example = "{\"error\": \"User not found\"}")))
     @ApiResponse(responseCode = "500", description = "Internal server error", content = {@Content()})
     @PatchMapping("/name")
-    public ResponseEntity<Boolean> updateUserName(@RequestBody @Valid UserNameDto userNameDto){
+    public ResponseEntity<Boolean> updateUserName( @Valid @RequestBody UserNameDto userNameDto){
+        System.out.println(userNameDto.getName());
         return userService.updateName(userNameDto.toEntity())
         .map(ResponseEntity::ok)
         .getOrElseGet(errorInfo -> {

@@ -50,6 +50,7 @@ public class UserBs implements UserService{
     public Either<ErrorInfo, Boolean> updateName(UserName userName) {
         Either<ErrorInfo, Boolean> result; 
         Optional<User> user = userRepository.findById(userName.getId());
+        System.out.println(userName.getName());
         if(user.isEmpty()){
             result = Either.left(errorMapper.getRn004());
         }else if (Boolean.FALSE.equals(userRepository.updateNameById(userName.getId(), userName.getName()))){

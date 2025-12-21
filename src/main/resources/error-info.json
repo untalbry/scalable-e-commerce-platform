@@ -42,5 +42,12 @@
       "ruta": "global",
       "type": "REQUEST"
     }
+    ,
+    {
+      "code": "RN007",
+      "message": "Autenticación no válida",
+      "ruta": "global",
+      "type": "REQUEST"
+    }
   ]
 }

@@ -37,8 +37,8 @@ public class UserDao implements UserRepository{
             """;
     private static final String UPDATE_USER_NAME = """
             update ec01_users ec01
-            set tx_name =:name,
-            where id_user =:id
+            set tx_name = :userName
+            where id_user = :id
             """;
     @Override
     public Optional<User> findById(Integer id) {
@@ -83,18 +83,20 @@ public class UserDao implements UserRepository{
     @Override
     @Transactional(rollbackOn = Exception.class)
     public Boolean updateEmailById(Integer userId, String email) {
-        int rowAffected = entityManager.createNativeQuery(UPDATE_USER_EMAIL)
+        int rowsAffected = entityManager.createNativeQuery(UPDATE_USER_EMAIL)
                 .setParameter("id", userId)
                 .setParameter("email", email)
                 .executeUpdate();
-        return rowAffected > 0;
+        return rowsAffected > 0;
     }
 
     @Override
+    @Transactional(rollbackOn = Exception.class)
     public Boolean updateNameById(Integer userId, String name) {
+        System.out.println(name);
         int rowsAffected = entityManager.createNativeQuery(UPDATE_USER_NAME)
             .setParameter("id", userId)
-            .setParameter("name", name)
+            .setParameter("userName", name)
             .executeUpdate();
         return rowsAffected > 0;
     }

@@ -23,7 +23,7 @@ public class ErrorGlobalMapper {
     private ErrorInfo rn004;
     private ErrorInfo rn005;
     private ErrorInfo rn006;
-
+    private ErrorInfo rn007;
 
 
     @PostConstruct
@@ -42,6 +42,7 @@ public class ErrorGlobalMapper {
         this.rn004 = errorInfoData.getErrorsInfo().get(4);
         this.rn005 = errorInfoData.getErrorsInfo().get(5);
         this.rn006 = errorInfoData.getErrorsInfo().get(6);
+        this.rn007 = errorInfoData.getErrorsInfo().get(7);
 
     }
 
