@@ -35,6 +35,11 @@ public class UserDao implements UserRepository{
             st_email_verified = false
             where id_user =:id
             """;
+    private static final String UPDATE_USER_NAME = """
+            update ec01_users ec01
+            set tx_name =:name,
+            where id_user =:id
+            """;
     @Override
     public Optional<User> findById(Integer id) {
         return userJpaRepository.findById(id).map(UserJpa::toEntity);
@@ -83,6 +88,15 @@ public class UserDao implements UserRepository{
                 .setParameter("email", email)
                 .executeUpdate();
         return rowAffected > 0;
+    }
+
+    @Override
+    public Boolean updateNameById(Integer userId, String name) {
+        int rowsAffected = entityManager.createNativeQuery(UPDATE_USER_NAME)
+            .setParameter("id", userId)
+            .setParameter("name", name)
+            .executeUpdate();
+        return rowsAffected > 0;
     }
 }
 

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.binarybrains.userservice.core.entity.User;
 import com.binarybrains.userservice.core.entity.UserEmail;
+import com.binarybrains.userservice.core.entity.UserName;
 import com.binarybrains.userservice.core.ports.input.UserService;
 import com.binarybrains.userservice.core.ports.output.UserRepository;
 import com.binarybrains.userservice.utils.error.ErrorGlobalMapper;
@@ -45,4 +46,17 @@ public class UserBs implements UserService{
         return result;
     }
 
+    @Override
+    public Either<ErrorInfo, Boolean> updateName(UserName userName) {
+        Either<ErrorInfo, Boolean> result; 
+        Optional<User> user = userRepository.findById(userName.getId());
+        if(user.isEmpty()){
+            result = Either.left(errorMapper.getRn004());
+        }else if (Boolean.FALSE.equals(userRepository.updateNameById(userName.getId(), userName.getName()))){
+            result = Either.left(errorMapper.getRn000()); 
+        }else{
+            result = Either.right(true); 
+        }
+        return result; 
+    }
 }
