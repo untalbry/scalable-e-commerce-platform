@@ -3,6 +3,7 @@ package com.binarybrains.userservice.infrastructure.rest.dto;
 import com.binarybrains.userservice.core.entity.UserEmail;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import lombok.Builder;
 import lombok.Getter;
@@ -13,7 +14,7 @@ import lombok.Setter;
 @Setter
 @Schema(name = "User email")
 public class UserEmailDto {
-    @NotBlank
+    @NotNull
     @Schema(
             description = "User id",
             example = "1",
