@@ -32,31 +32,20 @@
     },
     {
       "code": "RN005",
-      "message": "Credenciales incorrectas.",
+      "message": "El usuario o la contraseña ingresados no son válidos. Por favor, verifica la información e inténtalo nuevamente.",
       "ruta": "global",
       "type": "REQUEST"
     },
     {
       "code": "RN006",
-      "message": "Número no validado.",
+      "message": "Impedimento de acción",
       "ruta": "global",
       "type": "REQUEST"
-    },
+    }
+    ,
     {
       "code": "RN007",
-      "message": "Código de verificación no valido.",
-      "ruta": "global",
-      "type": "REQUEST"
-    },
-    {
-      "code": "RN008",
-      "message": "Nombre no válido.",
-      "ruta": "global",
-      "type": "FIELD"
-    },
-    {
-      "code": "RN009",
-      "message": "No se puede eliminar la cuenta.",
+      "message": "Autenticación no válida",
       "ruta": "global",
       "type": "REQUEST"
     }

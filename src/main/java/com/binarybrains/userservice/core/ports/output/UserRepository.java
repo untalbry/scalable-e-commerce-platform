@@ -12,4 +12,5 @@ public interface  UserRepository {
     Boolean updateEmailValidationAsVerifiedByEmail(String email);
     void deleteAllByEmail(String email);
     Boolean updateEmailById(Integer userId, String email);
+    Boolean updateNameById(Integer userId, String name); 
 }
